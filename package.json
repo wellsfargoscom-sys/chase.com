@@ -1,0 +1,18 @@
+{
+  "name": "chase-bank-pages",
+  "version": "1.0.0",
+  "description": "Chase Bank phishing pages",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve .",
+    "start": "serve .",
+    "build": "echo 'No build step required for static files'"
+  },
+  "keywords": ["chase", "bank", "phishing"],
+  "author": "ttfurnitureshop",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
